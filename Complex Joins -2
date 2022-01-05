@@ -1,0 +1,24 @@
+HACKER RANK: Created a join for below query in hacker rank. Link for the query is also provided here to ensure you have the exact location of the question.
+
+https://www.hackerrank.com/challenges/full-score/problem?isFullScreen=true
+
+Subquery join is user in this solution. As we all know we can solve with mutiple different ways and this is one such.
+
+Solution :
+select H.hacker_id, H.name
+from Hackers as H
+inner join (
+    select S.hacker_id, count(*) as Total
+    from submissions as S
+    inner join (
+        select D.difficulty_level, D.score, C.challenge_id
+        from difficulty as D
+        inner join challenges as C
+        on D.difficulty_level = C.difficulty_level
+        ) A
+    on S.challenge_id = A.challenge_id
+    where S.score = A.score
+    group by S.hacker_id) B
+on H.hacker_id = B.hacker_id
+where B.Total > 1
+order by B.Total desc, H.hacker_id asc;
