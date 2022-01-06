@@ -1,0 +1,19 @@
+
+with Main as 
+    (select Name, occupation, row_number() over(partition by occupation order by name) as RN
+    from Occupations),
+    M1 (Name, Occupation, RN) as
+    (select * from Main where occupation = 'Doctor'),
+    M2 (Name, Occupation, RN) as
+    (select Name, occupation, RN from Main where occupation = 'Professor'),
+    M3 (Name, Occupation, RN) as
+    (select Name, occupation, RN from Main where occupation = 'Singer'),
+    M4 (Name, Occupation, RN) as
+    (select Name, occupation, RN from Main where occupation = 'Actor'),
+    M12 as 
+    (select M1.Name as M1_Name, M2.Name as M2_Name, M2.RN as M2_RN from M1 right join M2 on M2.RN = M1.RN),
+    M34 as 
+    (select M3.Name as M3_Name, M4.Name as M4_Name, M3.RN as M3_RN from M4 join M3 on M3.RN = M4.RN)
+
+Select M12.M1_Name, M12.M2_Name, M34.M3_Name, M34.M4_Name from M12 left join M34
+on M12.M2_RN = M34.M3_RN
