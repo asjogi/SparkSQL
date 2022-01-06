@@ -1,4 +1,10 @@
+HACKER RANK: Created a join for below query in hacker rank. Link for the query is also provided here to ensure you have the exact location of the question.
 
+https://www.hackerrank.com/challenges/occupations/problem
+
+Subquery join is user in this solution. As we all know we can solve with mutiple different ways and this is one such.
+
+Solution :
 with Main as 
     (select Name, occupation, row_number() over(partition by occupation order by name) as RN
     from Occupations),
