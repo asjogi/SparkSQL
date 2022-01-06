@@ -1,0 +1,14 @@
+HACKER RANK: Created a join for below query in hacker rank. Link for the query is also provided here to ensure you have the exact location of the question.
+
+https://www.hackerrank.com/challenges/the-company/problem
+
+Subquery join is user in this solution. As we all know we can solve with mutiple different ways and this is one such.
+
+Solution :
+select C.company_code, C.founder, 
+(select count(distinct LM.lead_manager_code) from lead_Manager LM where C.company_code = LM.company_code),
+(select count(distinct SM.senior_manager_code) from senior_Manager SM where C.company_code = SM.company_code),
+(select count(distinct M.manager_code) from Manager M where C.company_code = M.company_code ),
+(select count(distinct E.employee_code) from Employee E where C.company_code = E.company_code)
+from Company C
+order by C.company_code asc;
