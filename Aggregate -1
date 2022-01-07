@@ -1,0 +1,13 @@
+Hacker rank : https://www.hackerrank.com/challenges/weather-observation-station-20/problem?isFullScreen=true
+Solution:
+with sta as (
+        select *, row_number() over(order by lat_n) as rn
+        from station 
+        )
+select cast(sta.lat_n as decimal(10,4))
+from sta
+where rn = (select 
+Case 
+ when max(rn)%2 > 0 then (max(rn)+1)/2
+end as med
+ from sta)
