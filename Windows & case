@@ -1,0 +1,15 @@
+Hacker rank question :
+https://www.hackerrank.com/challenges/the-report/problem?isFullScreen=false
+Solution:
+with school as (
+    select s.name, (select g.grade from grades g where s.marks >= g.min_mark and s.marks <= max_mark) list, 
+    s.marks
+    from students s
+    order by list desc, name asc)
+    
+select 
+case when list >= 8 then name
+else 'NULL'
+end,
+list, marks
+from school
