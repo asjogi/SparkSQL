@@ -1,0 +1,16 @@
+Question:
+https://www.hackerrank.com/challenges/harry-potter-and-wands/problem
+
+Solution:
+select ws.id, f.age, f.c_n, f.power
+from wands ws inner join   
+(select distinct w.code, wp.age, min(w.coins_needed) as c_n, w.power
+from wands w inner join
+wands_property wp
+on w.code = wp.code
+and wp.is_evil = 0
+group by wp.age, w.power, w.code) f
+on ws.coins_needed = f.c_n and
+ws.power = f.power and
+ws.code = f.code
+order by ws.power desc, f.age desc
