@@ -1,0 +1,16 @@
+Question:
+https://www.hackerrank.com/challenges/contest-leaderboard/problem?isFullScreen=true
+
+Solution:
+select hs.hacker_id, hs.name, tot.total_score
+from hackers hs inner join
+(
+select s.hacker_id, sum(s.scores) as total_score
+from (
+select hacker_id, challenge_id, max(score) as scores
+from submissions
+group by hacker_id, challenge_id) s
+group by s.hacker_id) tot
+on hs.hacker_id = tot.hacker_id
+where tot.total_score > 0
+order by tot.total_score desc, hs.hacker_id asc
