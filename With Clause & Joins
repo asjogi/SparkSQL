@@ -1,0 +1,24 @@
+Question:
+https://www.hackerrank.com/challenges/placements/problem?isFullScreen=true
+Solution:
+with fri_sal as (
+        select f.friend_id, p.salary
+        from friends f
+        inner join packages p
+        on f.friend_id = p.id),
+    my_sal as (
+        select f.id, p.salary, f.friend_id
+        from friends f
+        inner join packages p
+        on f.id = p.id),
+    join_sal as (
+        select ms.id, ms.salary, ms.friend_id, fs.salary as fs_sal
+        from fri_sal fs
+        inner join my_sal ms
+        on ms.friend_id = fs.friend_id)
+              
+select s.name
+from join_sal js inner join students s
+on js.id = s.id
+where js.fs_sal > js.salary
+order by js.fs_sal
